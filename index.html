@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#f4f3ef">
   <title>Онлайн-склад</title>
   <link rel="stylesheet" href="styles.css">
-  <style>body{font-family:Helvetica,"Helvetica Neue",Arial,sans-serif}.brand,#viewSubtitle,.filters{display:none!important}h1,h2,h3,strong,b,.primary,.sell-btn,.writeoff-btn{font-weight:500!important}.card-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}.writeoff-btn{width:100%;padding:11px;border:1px solid #dfded7;background:#fff;border-radius:11px;font-weight:500;cursor:pointer;color:#73736c}.writeoff-btn:hover{border-color:#c44334;color:#c44334}</style>
+  <style>body{font-family:Helvetica,"Helvetica Neue",Arial,sans-serif;background:#484848}.brand,#viewSubtitle,.filters{display:none!important}.topbar{justify-content:space-between}.tabs{margin:0}.hero h1,#todayLabel,.sales-head h2,.sales-head p{color:#fff}h1,h2,h3,strong,b,.primary,.sell-btn,.writeoff-btn{font-weight:500!important}.card-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}.writeoff-btn{width:100%;padding:11px;border:1px solid #dfded7;background:#fff;border-radius:11px;font-weight:500;cursor:pointer;color:#73736c}.writeoff-btn:hover{border-color:#c44334;color:#c44334}</style>
 </head>
 <body>
   <header class="topbar">
@@ -22,8 +22,8 @@
   <main>
     <section class="hero">
       <div>
+        <h1 id="viewTitle">Склад TOP DOG</h1>
         <p class="eyebrow" id="todayLabel"></p>
-        <h1 id="viewTitle">Ваш склад</h1>
         <p id="viewSubtitle">Все позиции, размеры и актуальные остатки в одном месте.</p>
       </div>
       <div class="summary">
@@ -35,7 +35,7 @@
 
     <section id="stockView">
       <div class="toolbar">
-        <label class="search"><span>⌕</span><input id="searchInput" placeholder="Поиск по названию или категории"></label>
+        <label class="search"><input id="searchInput" placeholder="Поиск ..."></label>
         <div class="filters" id="filters"></div>
         <select id="sortSelect" aria-label="Сортировка">
           <option value="new">Сначала новые</option><option value="name">По названию</option><option value="low">Мало в наличии</option><option value="price">По цене</option>
