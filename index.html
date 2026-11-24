@@ -32,7 +32,7 @@
         <article><span>Стоимость склада</span><strong id="totalValue">0 ₽</strong><small>с учётом скидок</small></article>
         <article><span>Продано за неделю</span><strong id="weeklySold">0</strong><small id="weekRange">шт.</small></article>
         <article><span>Продано за месяц</span><strong id="monthlySold">0</strong><small id="monthLabel">шт. за месяц</small></article>
-        <article><span>Списано за неделю</span><strong id="weeklyWrittenOff">0</strong><small>реклама и брак</small></article>
+        <article><span>Списано за неделю</span><strong id="weeklyWrittenOff">0</strong><small>промо вещи и брак</small></article>
       </div>
     </section>
 
@@ -41,7 +41,7 @@
         <label class="search"><input id="searchInput" placeholder="Поиск ..."></label>
         <div class="filters" id="filters"></div>
         <select id="sortSelect" aria-label="Сортировка">
-          <option value="new">Сначала новые</option><option value="name">По названию</option><option value="low">Мало в наличии</option><option value="price">По цене</option>
+          <option value="sales">По продажам</option><option value="new">Сначала новые</option><option value="name">По названию</option><option value="low">Мало в наличии</option><option value="price">По цене</option>
         </select>
       </div>
       <div class="catalog" id="catalog"></div>
@@ -55,7 +55,7 @@
       <div class="monthly-history"><h3>Статистика продаж по месяцам</h3><div class="monthly-stats" id="monthlyStats"></div></div>
     </section>
     <section id="writeoffsView" class="hidden">
-      <div class="sales-head"><div><h2>История списаний</h2><p>Вещи, переданные на рекламу или списанные по браку.</p></div></div>
+      <div class="sales-head"><div><h2>История списаний</h2><p>Промо вещи и позиции, списанные по браку.</p></div></div>
       <div class="sales-list" id="writeoffsList"></div>
       <div class="empty hidden" id="emptyWriteoffs"><b>Списаний пока нет</b><span>Откройте карточку товара и нажмите «Списать».</span></div>
     </section>
@@ -91,7 +91,7 @@
     <form method="dialog" id="writeoffForm">
       <div class="modal-head"><div><p class="eyebrow">Списание со склада</p><h2 id="writeoffTitle"></h2></div><button class="icon-btn" value="cancel">×</button></div>
       <input type="hidden" id="writeoffItemId">
-      <div class="form-grid"><label>Причина<select id="writeoffReason"><option value="Реклама">Передано на рекламу</option><option value="Брак">Списано по браку</option></select></label><label>Размер<select id="writeoffSize"></select></label><label>Количество<input id="writeoffQty" type="number" min="1" value="1" required></label><label>Комментарий<input id="writeoffNote" placeholder="Необязательно"></label></div>
+      <div class="form-grid"><label>Причина<select id="writeoffReason"><option value="Промо вещи">Промо вещи</option><option value="Брак">Списано по браку</option></select></label><label>Размер<select id="writeoffSize"></select></label><label>Количество<input id="writeoffQty" type="number" min="1" value="1" required></label><label>Комментарий<input id="writeoffNote" placeholder="Необязательно"></label></div>
       <p class="notice">Количество будет вычтено из актуального остатка.</p>
       <div class="modal-actions"><span></span><span></span><button value="cancel" class="secondary">Отмена</button><button type="submit" class="primary">Списать</button></div>
     </form>
