@@ -70,10 +70,8 @@
       <div class="photo-upload"><img id="photoPreview" alt="Фото вещи"><label><b>Фото вещи</b><span>PNG или JPG</span><input type="file" id="photoInput" accept="image/*"></label></div>
       <div class="form-grid">
         <label class="wide">Название<input id="nameInput" required placeholder="Например, Брюки Cargo"></label>
-        <label>Категория<input id="categoryInput" required placeholder="Брюки"></label>
         <label>Цена, ₽<input id="priceInput" required type="number" min="0" step="1"></label>
         <label>Скидка, %<input id="discountInput" type="number" min="0" max="99" value="0"></label>
-        <label>Артикул<input id="skuInput" placeholder="BR-001"></label>
         <label class="wide">Размеры и количество<input id="sizesInput" required placeholder="S:2, M:4, L:3, XL:1"><small>Укажите через запятую, например S:2, M:4</small></label>
       </div>
       <div class="modal-actions"><button class="danger hidden" type="button" id="deleteBtn">Удалить</button><span></span><button value="cancel" class="secondary">Отмена</button><button type="submit" class="primary">Сохранить</button></div>
@@ -100,6 +98,6 @@
   </dialog>
 
   <template id="cardTemplate"><article class="product-card"><div class="product-image"><img alt=""><span class="discount-pill"></span><button class="edit-btn" title="Изменить">✎</button></div><div class="product-body"><div class="meta"><span class="category"></span><span class="sku"></span></div><h3></h3><div class="sizes"></div><div class="price-row"><div><strong class="price"></strong><del></del></div><span class="stock-count"></span></div><div class="card-actions"><button class="sell-btn">Продажа</button><button class="writeoff-btn">Списать</button></div></div></article></template>
-  <script src="app.js?v=19"></script>
+  <script src="app.js?v=20"></script>
 </body>
 </html>
