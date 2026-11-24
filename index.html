@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#f4f3ef">
+  <title>Онлайн-склад</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>.card-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}.writeoff-btn{width:100%;padding:11px;border:1px solid #dfded7;background:#fff;border-radius:11px;font-weight:700;cursor:pointer;color:#73736c}.writeoff-btn:hover{border-color:#c44334;color:#c44334}</style>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#"><span>СКЛАД</span><small>учёт вещей</small></a>
+    <nav class="tabs" aria-label="Разделы">
+      <button class="tab active" data-view="stock">Остатки</button>
+      <button class="tab" data-view="sales">Продажи за неделю <span id="salesBadge">0</span></button>
+      <button class="tab" data-view="writeoffs">Списания <span id="writeoffsBadge">0</span></button>
+    </nav>
+    <button class="primary" id="addBtn">+ Добавить вещь</button>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div>
+        <p class="eyebrow" id="todayLabel"></p>
+        <h1 id="viewTitle">Ваш склад</h1>
+        <p id="viewSubtitle">Все позиции, размеры и актуальные остатки в одном месте.</p>
+      </div>
+      <div class="summary">
+        <article><span>Вещей в наличии</span><strong id="totalUnits">0</strong><small>шт. на сегодня</small></article>
+        <article><span>Стоимость склада</span><strong id="totalValue">0 ₽</strong><small>с учётом скидок</small></article>
+        <article><span>Продано за неделю</span><strong id="weeklySold">0</strong><small id="weekRange">шт.</small></article>
+      </div>
+    </section>
+
+    <section id="stockView">
+      <div class="toolbar">
+        <label class="search"><span>⌕</span><input id="searchInput" placeholder="Поиск по названию или категории"></label>
+        <div class="filters" id="filters"></div>
+        <select id="sortSelect" aria-label="Сортировка">
+          <option value="new">Сначала новые</option><option value="name">По названию</option><option value="low">Мало в наличии</option><option value="price">По цене</option>
+        </select>
+      </div>
+      <div class="catalog" id="catalog"></div>
+      <div class="empty hidden" id="emptyStock"><b>Ничего не найдено</b><span>Попробуйте изменить поиск или добавьте новую вещь.</span></div>
+    </section>
+
+    <section id="salesView" class="hidden">
+      <div class="sales-head"><div><h2>Продажи за текущую неделю</h2><p id="salesPeriod"></p></div><button class="secondary" id="exportBtn">Скачать CSV</button></div>
+      <div class="sales-list" id="salesList"></div>
+      <div class="empty hidden" id="emptySales"><b>Продаж пока нет</b><span>Отметьте продажу в карточке товара — она появится здесь.</span></div>
+    </section>
+    <section id="writeoffsView" class="hidden">
+      <div class="sales-head"><div><h2>История списаний</h2><p>Вещи, переданные на рекламу или списанные по браку.</p></div></div>
+      <div class="sales-list" id="writeoffsList"></div>
+      <div class="empty hidden" id="emptyWriteoffs"><b>Списаний пока нет</b><span>Откройте карточку товара и нажмите «Списать».</span></div>
+    </section>
+  </main>
+
+  <dialog id="itemDialog">
+    <form method="dialog" id="itemForm">
+      <div class="modal-head"><div><p class="eyebrow">Карточка товара</p><h2 id="dialogTitle">Новая вещь</h2></div><button class="icon-btn" value="cancel" aria-label="Закрыть">×</button></div>
+      <input type="hidden" id="itemId">
+      <div class="photo-upload"><img id="photoPreview" alt="Фото вещи"><label><b>Фото вещи</b><span>PNG или JPG</span><input type="file" id="photoInput" accept="image/*"></label></div>
+      <div class="form-grid">
+        <label class="wide">Название<input id="nameInput" required placeholder="Например, Брюки Cargo"></label>
+        <label>Категория<input id="categoryInput" required placeholder="Брюки"></label>
+        <label>Цена, ₽<input id="priceInput" required type="number" min="0" step="1"></label>
+        <label>Скидка, %<input id="discountInput" type="number" min="0" max="99" value="0"></label>
+        <label>Артикул<input id="skuInput" placeholder="BR-001"></label>
+        <label class="wide">Размеры и количество<input id="sizesInput" required placeholder="S:2, M:4, L:3, XL:1"><small>Укажите через запятую, например S:2, M:4</small></label>
+      </div>
+      <div class="modal-actions"><button class="danger hidden" type="button" id="deleteBtn">Удалить</button><span></span><button value="cancel" class="secondary">Отмена</button><button type="submit" class="primary">Сохранить</button></div>
+    </form>
+  </dialog>
+
+  <dialog id="sellDialog">
+    <form method="dialog" id="sellForm">
+      <div class="modal-head"><div><p class="eyebrow">Новая продажа</p><h2 id="sellTitle"></h2></div><button class="icon-btn" value="cancel">×</button></div>
+      <input type="hidden" id="sellItemId">
+      <div class="form-grid"><label>Размер<select id="sellSize"></select></label><label>Количество<input id="sellQty" type="number" min="1" value="1" required></label></div>
+      <p class="notice">Остаток уменьшится автоматически, а запись появится в продажах за неделю.</p>
+      <div class="modal-actions"><span></span><span></span><button value="cancel" class="secondary">Отмена</button><button type="submit" class="primary">Записать продажу</button></div>
+    </form>
+  </dialog>
+  <dialog id="writeoffDialog">
+    <form method="dialog" id="writeoffForm">
+      <div class="modal-head"><div><p class="eyebrow">Списание со склада</p><h2 id="writeoffTitle"></h2></div><button class="icon-btn" value="cancel">×</button></div>
+      <input type="hidden" id="writeoffItemId">
+      <div class="form-grid"><label>Причина<select id="writeoffReason"><option value="Реклама">Передано на рекламу</option><option value="Брак">Списано по браку</option></select></label><label>Размер<select id="writeoffSize"></select></label><label>Количество<input id="writeoffQty" type="number" min="1" value="1" required></label><label>Комментарий<input id="writeoffNote" placeholder="Необязательно"></label></div>
+      <p class="notice">Количество будет вычтено из актуального остатка.</p>
+      <div class="modal-actions"><span></span><span></span><button value="cancel" class="secondary">Отмена</button><button type="submit" class="primary">Списать</button></div>
+    </form>
+  </dialog>
+
+  <template id="cardTemplate"><article class="product-card"><div class="product-image"><img alt=""><span class="discount-pill"></span><button class="edit-btn" title="Изменить">✎</button></div><div class="product-body"><div class="meta"><span class="category"></span><span class="sku"></span></div><h3></h3><div class="sizes"></div><div class="price-row"><div><strong class="price"></strong><del></del></div><span class="stock-count"></span></div><div class="card-actions"><button class="sell-btn">Продажа</button><button class="writeoff-btn">Списать</button></div></div></article></template>
+  <script src="app.js"></script>
+</body>
+</html>
