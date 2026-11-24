@@ -18,14 +18,15 @@ function weekStart(d=new Date()){const x=new Date(d);x.setHours(0,0,0,0);x.setDa
 function weeklySales(){const start=weekStart();return state.sales.filter(s=>new Date(s.date)>=start)}
 function monthlySales(d=new Date()){const start=new Date(d.getFullYear(),d.getMonth(),1);return state.sales.filter(s=>new Date(s.date)>=start)}
 function weeklyWriteoffs(){const start=weekStart();return state.writeoffs.filter(s=>new Date(s.date)>=start)}
+function monthlyWriteoffs(d=new Date()){const start=new Date(d.getFullYear(),d.getMonth(),1);return state.writeoffs.filter(s=>new Date(s.date)>=start)}
 function render(){
  const now=new Date(), ws=weekStart(now), we=new Date(ws);we.setDate(we.getDate()+6);
  document.querySelector('#todayLabel').textContent=now.toLocaleDateString('ru-RU',{day:'2-digit',month:'2-digit',year:'2-digit'});
  document.querySelector('#weekRange').textContent=`${ws.toLocaleDateString('ru-RU',{day:'2-digit',month:'2-digit'})} — ${we.toLocaleDateString('ru-RU',{day:'2-digit',month:'2-digit'})}`;
  document.querySelector('#salesPeriod').textContent=`С ${ws.toLocaleDateString('ru-RU',{day:'numeric',month:'long'})} по ${we.toLocaleDateString('ru-RU',{day:'numeric',month:'long'})}`;
  const units=state.items.reduce((a,i)=>a+qty(i),0), sales=weeklySales();
- document.querySelector('#totalUnits').textContent=units;document.querySelector('#totalValue').textContent=money(state.items.reduce((a,i)=>a+qty(i)*finalPrice(i),0));
- document.querySelector('#weeklySold').textContent=sales.reduce((a,s)=>a+s.qty,0);document.querySelector('#monthlySold').textContent=monthlySales(now).reduce((a,s)=>a+s.qty,0);document.querySelector('#monthLabel').textContent=now.toLocaleDateString('ru-RU',{month:'long'});document.querySelector('#weeklyWrittenOff').textContent=weeklyWriteoffs().reduce((a,s)=>a+s.qty,0);document.querySelector('#salesBadge').textContent=sales.length;document.querySelector('#writeoffsBadge').textContent=state.writeoffs.length;
+ document.querySelector('#stockSummary').textContent=`${state.items.length} / ${units}`;document.querySelector('#totalValue').textContent=money(state.items.reduce((a,i)=>a+qty(i)*finalPrice(i),0));
+ const monthWriteoffs=monthlyWriteoffs(now);document.querySelector('#weeklySold').textContent=money(sales.reduce((a,s)=>a+s.price*s.qty,0));document.querySelector('#monthlySold').textContent=money(monthlySales(now).reduce((a,s)=>a+s.price*s.qty,0));document.querySelector('#monthLabel').textContent=now.toLocaleDateString('ru-RU',{month:'long'});document.querySelector('#monthlyWrittenOff').textContent=`${monthWriteoffs.reduce((a,s)=>a+s.qty,0)} (${money(monthWriteoffs.reduce((a,s)=>a+s.price*s.qty,0))})`;document.querySelector('#salesBadge').textContent=sales.length;document.querySelector('#writeoffsBadge').textContent=state.writeoffs.length;
  renderFilters();renderCards();renderSales();renderWriteoffs();
 }
 function renderFilters(){const cats=['Все',...new Set(state.items.map(i=>i.category))];document.querySelector('#filters').innerHTML=cats.map(c=>`<button class="filter ${c===filter?'active':''}" data-filter="${c}">${c}</button>`).join('')}
