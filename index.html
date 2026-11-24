@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#f4f3ef">
   <title>Онлайн-склад</title>
   <link rel="stylesheet" href="styles.css">
-  <style>body{font-family:Helvetica,"Helvetica Neue",Arial,sans-serif;background:#484848}.brand,#viewSubtitle,.filters{display:none!important}.topbar{justify-content:space-between;position:sticky}.tabs{margin:0}.topbar-logo{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:190px;height:46px;object-fit:contain;pointer-events:none}.hero{display:grid;grid-template-columns:1fr;gap:18px;margin-bottom:40px}.hero>div:first-child{display:grid;grid-template-columns:1fr auto;align-items:end}.hero h1,#todayLabel,.sales-head h2,.sales-head p{color:#fff}.hero h1{white-space:nowrap;font-size:clamp(38px,4.35vw,70px);margin-bottom:0}#todayLabel{text-align:right;margin:0 0 7px}.summary{grid-template-columns:repeat(5,1fr);width:100%}.product-image{background:#fff}.product-image img{object-fit:contain}h1,h2,h3,strong,b,.primary,.sell-btn,.writeoff-btn{font-weight:500!important}.card-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}.writeoff-btn{width:100%;padding:11px;border:1px solid #dfded7;background:#fff;border-radius:11px;font-weight:500;cursor:pointer;color:#73736c}.writeoff-btn:hover{border-color:#c44334;color:#c44334}@media(max-width:780px){.topbar-logo{width:145px;height:36px}.hero h1{font-size:clamp(30px,9vw,52px)}.summary{grid-template-columns:1fr}}@media(max-width:500px){.topbar-logo{width:115px}.hero h1{font-size:clamp(26px,8.4vw,42px)}}</style>
+  <style>body{font-family:Helvetica,"Helvetica Neue",Arial,sans-serif;background:#484848}.brand,#viewSubtitle,.filters{display:none!important}.topbar{justify-content:space-between;position:sticky}.tabs{margin:0}.topbar-logo{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:190px;height:46px;object-fit:contain;pointer-events:none}.hero{display:grid;grid-template-columns:1fr;gap:18px;margin-bottom:40px}.hero>div:first-child{display:grid;grid-template-columns:1fr auto;align-items:end}.hero h1,#todayLabel,.sales-head h2,.sales-head p{color:#fff}.hero h1{white-space:nowrap;font-size:clamp(38px,4.35vw,70px);margin-bottom:0}#todayLabel{text-align:right;margin:0 0 7px;font-size:18px}.summary{grid-template-columns:repeat(5,1fr);width:100%}.product-image{background:#fff}.product-image img{object-fit:contain}.monthly-history{margin-top:34px}.monthly-history h3{color:#fff;font-size:24px}.monthly-stats{display:grid;gap:8px}.monthly-row{display:grid;grid-template-columns:1fr auto auto;gap:34px;align-items:center;background:#fff;border-radius:14px;padding:16px 20px}.monthly-row span{color:#73736c}.monthly-row strong{font-size:20px}.monthly-empty{color:#c8c8c3;border:1px dashed #777;border-radius:14px;padding:24px}h1,h2,h3,strong,b,.primary,.sell-btn,.writeoff-btn{font-weight:500!important}.card-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}.writeoff-btn{width:100%;padding:11px;border:1px solid #dfded7;background:#fff;border-radius:11px;font-weight:500;cursor:pointer;color:#73736c}.writeoff-btn:hover{border-color:#c44334;color:#c44334}@media(max-width:780px){.topbar-logo{width:145px;height:36px}.hero h1{font-size:clamp(30px,9vw,52px)}.summary{grid-template-columns:1fr}.monthly-row{grid-template-columns:1fr;gap:4px}}@media(max-width:500px){.topbar-logo{width:115px}.hero h1{font-size:clamp(26px,8.4vw,42px)}}</style>
 </head>
 <body>
   <header class="topbar">
@@ -23,7 +23,7 @@
   <main>
     <section class="hero">
       <div>
-        <h1 id="viewTitle">Склад TOP DOG</h1>
+        <h1 id="viewTitle">Склад</h1>
         <p class="eyebrow" id="todayLabel"></p>
         <p id="viewSubtitle">Все позиции, размеры и актуальные остатки в одном месте.</p>
       </div>
@@ -52,6 +52,7 @@
       <div class="sales-head"><div><h2>Продажи за текущую неделю</h2><p id="salesPeriod"></p></div><button class="secondary" id="exportBtn">Скачать CSV</button></div>
       <div class="sales-list" id="salesList"></div>
       <div class="empty hidden" id="emptySales"><b>Продаж пока нет</b><span>Отметьте продажу в карточке товара — она появится здесь.</span></div>
+      <div class="monthly-history"><h3>Статистика продаж по месяцам</h3><div class="monthly-stats" id="monthlyStats"></div></div>
     </section>
     <section id="writeoffsView" class="hidden">
       <div class="sales-head"><div><h2>История списаний</h2><p>Вещи, переданные на рекламу или списанные по браку.</p></div></div>
