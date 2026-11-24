@@ -16,6 +16,7 @@ const qty=i=>Object.values(i.sizes).reduce((a,b)=>a+Number(b),0);
 const finalPrice=i=>i.price*(1-(i.discount||0)/100);
 function weekStart(d=new Date()){const x=new Date(d);x.setHours(0,0,0,0);x.setDate(x.getDate()-((x.getDay()+6)%7));return x}
 function weeklySales(){const start=weekStart();return state.sales.filter(s=>new Date(s.date)>=start)}
+function weeklyWriteoffs(){const start=weekStart();return state.writeoffs.filter(s=>new Date(s.date)>=start)}
 function render(){
  const now=new Date(), ws=weekStart(now), we=new Date(ws);we.setDate(we.getDate()+6);
  document.querySelector('#todayLabel').textContent=now.toLocaleDateString('ru-RU',{day:'2-digit',month:'2-digit',year:'2-digit'});
@@ -23,7 +24,7 @@ function render(){
  document.querySelector('#salesPeriod').textContent=`С ${ws.toLocaleDateString('ru-RU',{day:'numeric',month:'long'})} по ${we.toLocaleDateString('ru-RU',{day:'numeric',month:'long'})}`;
  const units=state.items.reduce((a,i)=>a+qty(i),0), sales=weeklySales();
  document.querySelector('#totalUnits').textContent=units;document.querySelector('#totalValue').textContent=money(state.items.reduce((a,i)=>a+qty(i)*finalPrice(i),0));
- document.querySelector('#weeklySold').textContent=sales.reduce((a,s)=>a+s.qty,0);document.querySelector('#salesBadge').textContent=sales.length;document.querySelector('#writeoffsBadge').textContent=state.writeoffs.length;
+ document.querySelector('#weeklySold').textContent=sales.reduce((a,s)=>a+s.qty,0);document.querySelector('#weeklyRevenue').textContent=money(sales.reduce((a,s)=>a+s.price*s.qty,0));document.querySelector('#weeklyWrittenOff').textContent=weeklyWriteoffs().reduce((a,s)=>a+s.qty,0);document.querySelector('#salesBadge').textContent=sales.length;document.querySelector('#writeoffsBadge').textContent=state.writeoffs.length;
  renderFilters();renderCards();renderSales();renderWriteoffs();
 }
 function renderFilters(){const cats=['Все',...new Set(state.items.map(i=>i.category))];document.querySelector('#filters').innerHTML=cats.map(c=>`<button class="filter ${c===filter?'active':''}" data-filter="${c}">${c}</button>`).join('')}
